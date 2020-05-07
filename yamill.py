@@ -1,15 +1,9 @@
-#!/usr/bin/env python3
-
-"""YAMill – Grinding down your YAML.
-"""
-
 from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
 from typing import *
 import logging
 import re
-import sys
 
 from ruamel.yaml import YAML
 import yaml as pyyaml
@@ -318,7 +312,23 @@ def redump(yaml: str) -> str:
     return pyyaml.safe_dump(pyyaml.safe_load(yaml))
 
 
-def main(args):
+def usage():
+    print(
+        """Usage: yamill [options] <paths ...>
+
+Options:
+  --debug   Output debugging information. (extremely verbose)
+  --fix     Fix files in place.
+  --unsafe  Speed up processing when writing back fixed files by skipping
+            checks to ensure the data did not change.  DO NOT USE!
+"""
+    )
+
+
+def cli(args) -> int:
+    if not args or "--help" in args:
+        usage()
+        return 1 if not args else 0
     if "--debug" in args:
         log.setLevel(logging.DEBUG)
     if "--unsafe" in args:
@@ -346,14 +356,20 @@ def main(args):
                     path.write_text(fixed)
                     changed += 1
                     print(f"reformatted {path}")
-    if needs_change == changed:
-        print("All done! ✨ 🍰 ✨")
-        print(f"{changed} files reformatted. ⚡️" if changed else "No files changed. 😴")
-    else:
+    if needs_change != changed:
         print("Oh no! 💥 💔 💥")
         print(f"{needs_change - changed} files still need to be reformatted. 🌩")
         return 1
+    print("All done! ✨ 🍰 ✨")
+    print(f"{changed} files reformatted. ⚡️" if changed else "No files changed. 😴")
+    return 0
+
+
+def main():
+    import sys
+
+    sys.exit(cli(sys.argv[1:]))
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1:]))
+    main()

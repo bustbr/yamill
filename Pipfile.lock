@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0c58877d928d0a54cf4cf38642416e58a33e65887162db2c5aec987ac4f38aac"
+            "sha256": "a39b077acf2a32e001b0046d186eee7abebf4b97e5b1d1e1603f1c7799987a9b"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.8"
+            "python_version": "3"
         },
         "sources": [
             {
@@ -66,5 +66,10 @@
             "version": "==0.2.0"
         }
     },
-    "develop": {}
+    "develop": {
+        "yamill": {
+            "editable": true,
+            "path": "."
+        }
+    }
 }
