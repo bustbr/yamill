@@ -12,7 +12,8 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/bustbr/yamill",
-    packages=setuptools.find_packages(),
+    py_modules=["yamill"],
+    install_requires=["pyyaml>=5.3.1", "ruamel.yaml>=0.16.10"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
