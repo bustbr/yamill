@@ -184,6 +184,13 @@ def normalize_scalar(type_: str, value: str) -> str:
     return typemap[type_](value) if type_ in typemap else value
 
 
+def clean_comment(commentval: str) -> str:
+    c = commentval.rstrip()
+    if c.startswith("#") or c.startswith(" "):
+        return f"#{c}"
+    return f"# {c}"
+
+
 def normalize(yaml: str) -> str:
     """Return the given canonical YAML string in our normalized form.
 
@@ -249,9 +256,9 @@ def normalize(yaml: str) -> str:
         elif tok.type_ == "comment-line":
             if formatted:
                 formatted += newline
-            formatted += indent + f"# {tok.value.strip()}"
+            formatted += indent + clean_comment(tok.value)
         elif tok.type_ == "comment-inline":
-            formatted += f"  # {tok.value.strip()}"
+            formatted += "  " + clean_comment(tok.value)
         elif tok.type_ == "value":
             if prev.type_ != "tag":
                 raise ParseError(f"Unexpected value: {tok}")

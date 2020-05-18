@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="yamill",
-    version="0.0.1",
+    version="0.0.2",
     author="Nona Suomy",
     author_email="liam@nona.party",
     description="A formatter and linter for YAML files.",
