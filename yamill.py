@@ -247,7 +247,9 @@ def normalize(yaml: str) -> str:
             formatted += newline + indent
 
             if coll == "seq":
-                formatted += "- "
+                formatted += "-"
+                if tok.value in scalars:
+                    formatted += " "
 
         # format & print the output value
         elif tok.type_ == "empty-line":
